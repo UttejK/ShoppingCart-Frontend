@@ -1,12 +1,15 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
 import logo from "/image.png";
 
-const NavbarComponent = ({ page, setPage }) => {
+const NavbarComponent = ({ setPage }) => {
   return (
     <Navbar
       data-bs-theme="dark"
       expand="lg"
-      className="bg-dark bg-gradient vh-5 position-fixed shadow-lg vw-100 z-1"
+      sticky="top"
+      style={{ height: "10vh", overflow: "hidden" }}
+      className="bg-dark bg-gradient shadow-lg vw-100"
+      collapseOnSelect
     >
       <Container>
         <Navbar.Brand href="#home">
@@ -17,17 +20,16 @@ const NavbarComponent = ({ page, setPage }) => {
           />
           ATLANTIS
         </Navbar.Brand>
-        <Nav className="gap-2">
-          <Nav.Link href="#home" onClick={() => setPage("product")}>
-            Home
-          </Nav.Link>
-          <Nav.Link href="#cart" onClick={() => setPage("cart")}>
-            Cart
-          </Nav.Link>
-          <Nav.Link href="#checkout" onClick={() => setPage("checkout")}>
-            Checkout
-          </Nav.Link>
-        </Nav>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse aria-controls="responsive-navbar-nav" />
+
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link onClick={() => setPage("product")}>Home</Nav.Link>
+            <Nav.Link onClick={() => setPage("cart")}>Cart</Nav.Link>
+            <Nav.Link onClick={() => setPage("checkout")}>Checkout</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

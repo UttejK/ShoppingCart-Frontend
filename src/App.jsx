@@ -25,9 +25,7 @@ const App = () => {
   return (
     <div className="bg-secondary bg-gradient">
       <NavbarComponent page={page} setPage={setPage} />
-      <section style={{ paddingTop: "6rem" }} id="home">
-        {activePage}
-      </section>
+      <section style={{ paddingTop: "15vh" }}>{activePage}</section>
     </div>
   );
 };

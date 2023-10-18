@@ -16,7 +16,10 @@ const Products = () => {
         <Row>
           {items.map((item) => {
             return (
-              <Col key={item.id} className="my-auto p-3">
+              <Col
+                key={item.id}
+                className="my-auto p-3 d-flex justify-content-center"
+              >
                 <Product
                   cardImageURL={item.logoURL}
                   cardTitle={`Logo ${item.id}`}
