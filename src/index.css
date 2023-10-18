@@ -1,0 +1,13 @@
+/* NOT USING THIS */
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Add your additional styles below this line */
