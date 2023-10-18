@@ -13,10 +13,10 @@ const App = () => {
       activePage = <Products />;
       break;
     case "cart":
-      activePage = <Shoppingcart />;
+      activePage = <Shoppingcart page={page} setPage={setPage} />;
       break;
     case "checkout":
-      activePage = <Checkout />;
+      activePage = <Checkout page={page} setPage={setPage} />;
       break;
     default:
       activePage = <Products />;

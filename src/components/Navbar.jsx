@@ -17,7 +17,7 @@ const NavbarComponent = ({ page, setPage }) => {
           />
           ATLANTIS
         </Navbar.Brand>
-        <Nav>
+        <Nav className="gap-2">
           <Nav.Link href="#home" onClick={() => setPage("product")}>
             Home
           </Nav.Link>

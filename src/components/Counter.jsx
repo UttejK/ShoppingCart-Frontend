@@ -1,5 +1,6 @@
 import { useReducer } from "react";
 import { Button } from "react-bootstrap";
+import { CartPlus, CartX } from "react-bootstrap-icons";
 
 // Reducer function
 const reducer = (state, action) => {
@@ -14,8 +15,11 @@ const reducer = (state, action) => {
 };
 
 // Component using useReducer
-export default function App() {
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
+export default function Counter({ initialQuantity, count }) {
+  const [state, dispatch] = useReducer(reducer, {
+    // count: initialQuantity ? initialQuantity : 0,
+    count: initialQuantity | count,
+  });
   // console.log(state);
 
   return (
@@ -30,20 +34,22 @@ export default function App() {
             variant="danger"
             onClick={() => {
               try {
-                state.count === 0 ? null : dispatch({ type: "DECREMENT" });
+                dispatch({ type: "DECREMENT" });
               } catch (err) {
                 console.log(err);
               }
             }}
           >
-            -
+            <CartX />
+            {/* - */}
           </Button>
           <span className="mx-3">{state.count}</span>
           <Button
             variant="success"
             onClick={() => dispatch({ type: "INCREMENT" })}
           >
-            +
+            <CartPlus />
+            {/* + */}
           </Button>
         </div>
       )}
