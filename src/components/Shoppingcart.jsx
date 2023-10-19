@@ -1,9 +1,20 @@
 import { Button, Container } from "react-bootstrap";
 import CartItem from "./CartItem";
-import logoURLs from "./utils";
 import { BoxArrowLeft, BoxArrowRight } from "react-bootstrap-icons";
 
-const Shoppingcart = ({ page, setPage }) => {
+const Shoppingcart = ({
+  id,
+  page,
+  setPage,
+  addProduct,
+  updateQuantity,
+  selectedProducts,
+  setSelectedProducts,
+}) => {
+  const productIndex = selectedProducts.findIndex(
+    (product) => product.id === id
+  );
+  const product = selectedProducts[productIndex];
   return (
     <>
       <Container className="vh-100 d-flex flex-column w-50 align-items-center">
@@ -17,34 +28,21 @@ const Shoppingcart = ({ page, setPage }) => {
           <span className="ps-3">Back to Products page</span>
         </Button>
 
-        <CartItem
-          id={0}
-          imgSrc={logoURLs[0]}
-          itemName={"Logo 1"}
-          price={1.99}
-          initialQuantity={10}
-        />
-        <CartItem
-          id={0}
-          imgSrc={logoURLs[0]}
-          itemName={"Logo 1"}
-          price={1.99}
-          initialQuantity={10}
-        />
-        <CartItem
-          id={0}
-          imgSrc={logoURLs[0]}
-          itemName={"Logo 1"}
-          price={1.99}
-          initialQuantity={10}
-        />
-        <CartItem
-          id={0}
-          imgSrc={logoURLs[0]}
-          itemName={"Logo 1"}
-          price={1.99}
-          initialQuantity={10}
-        />
+        {selectedProducts
+          ? selectedProducts.map((product) => (
+              <div key={product.id}>
+                <CartItem
+                  id={product.id}
+                  selectedProducts={selectedProducts}
+                  addProduct={addProduct}
+                  updateQuantity={updateQuantity}
+                  page={page}
+                  price={0}
+                  setSelectedProducts={setSelectedProducts}
+                />
+              </div>
+            ))
+          : null}
         <Button
           variant="light"
           onClick={() => setPage("checkout")}

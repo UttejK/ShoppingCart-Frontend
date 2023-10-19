@@ -1,6 +1,15 @@
 import Counter from "./Counter";
 
-const CartItem = ({ imgSrc, itemName, id, initialQuantity, price }) => {
+const CartItem = ({
+  imgSrc,
+  selectedProducts,
+  itemName,
+  id,
+  price,
+  addProduct,
+  updateQuantity,
+  setSelectedProducts,
+}) => {
   return (
     <div className="d-flex align-items-center justify-content-center gap-5 px-5 py-4">
       <span>{id}</span>
@@ -10,9 +19,15 @@ const CartItem = ({ imgSrc, itemName, id, initialQuantity, price }) => {
         style={{ objectFit: "contain", width: "4rem" }}
       />
       <span>{itemName}</span>
-      <Counter initialQuantity={initialQuantity} />
+      <Counter
+        id={id}
+        selectedProducts={selectedProducts}
+        addProduct={addProduct}
+        updateQuantity={updateQuantity}
+        setSelectedProducts={setSelectedProducts}
+      />
       {/* <span>{initialQuantity}</span> */}
-      <span>{(price * initialQuantity).toFixed(2)}</span>
+      <span>{price.toFixed(2)}</span>
     </div>
   );
 };

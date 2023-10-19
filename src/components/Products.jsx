@@ -2,7 +2,7 @@ import Product from "./Product";
 import { Col, Container, Row } from "react-bootstrap";
 import logoURLs from "./utils/index";
 
-const Products = ({ addProduct, updateQuantity }) => {
+const Products = ({ addProduct, updateQuantity, selectedProducts }) => {
   const items = Array.from({ length: 16 }, (_, index) => {
     return {
       id: index + 1,
@@ -31,6 +31,7 @@ const Products = ({ addProduct, updateQuantity }) => {
                   cardText={"This is an AI Generated Image"}
                   addProduct={addProduct}
                   updateQuantity={updateQuantity}
+                  selectedProducts={selectedProducts}
                 />
               </Col>
             );

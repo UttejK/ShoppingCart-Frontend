@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Products from "./components/Products";
 import Shoppingcart from "./components/Shoppingcart";
 import Checkout from "./components/Checkout";
@@ -26,17 +26,47 @@ const App = () => {
   switch (page) {
     case "product":
       activePage = (
-        <Products addProduct={addProduct} updateQuantity={updateQuantity} />
+        <Products
+          addProduct={addProduct}
+          updateQuantity={updateQuantity}
+          selectedProducts={selectedProducts}
+          setSelectedProducts={setSelectedProducts}
+        />
       );
       break;
     case "cart":
-      activePage = <Shoppingcart page={page} setPage={setPage} />;
+      activePage = (
+        <Shoppingcart
+          addProduct={addProduct}
+          updateQuantity={updateQuantity}
+          selectedProducts={selectedProducts}
+          page={page}
+          setPage={setPage}
+          setSelectedProducts={setSelectedProducts}
+        />
+      );
       break;
     case "checkout":
-      activePage = <Checkout page={page} setPage={setPage} />;
+      activePage = (
+        <Checkout
+          addProduct={addProduct}
+          updateQuantity={updateQuantity}
+          selectedProducts={selectedProducts}
+          page={page}
+          setPage={setPage}
+          setSelectedProducts={setSelectedProducts}
+        />
+      );
       break;
     default:
-      activePage = <Products />;
+      activePage = (
+        <Products
+          addProduct={addProduct}
+          updateQuantity={updateQuantity}
+          selectedProducts={selectedProducts}
+          setSelectedProducts={setSelectedProducts}
+        />
+      );
   }
 
   return (

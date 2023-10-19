@@ -1,27 +1,28 @@
 import { Card } from "react-bootstrap";
 import Counter from "./Counter";
+
 const Product = ({
   id,
   cardImageURL,
   cardTitle,
   cardText,
+  selectedProducts,
   addProduct,
   updateQuantity,
 }) => {
   return (
     <div>
-      <Card
-        style={{ width: "18rem" }}
-        className="d-flex align-items-center"
-        onClick={() => {
-          addProduct(id, 1);
-        }}
-      >
+      <Card style={{ width: "18rem" }} className="d-flex align-items-center">
         <Card.Img variant="top" src={cardImageURL} />
         <Card.Body className="d-flex flex-column align-items-center">
           <Card.Title>{cardTitle}</Card.Title>
           <Card.Text>{cardText}</Card.Text>
-          <Counter />
+          <Counter
+            id={id}
+            selectedProducts={selectedProducts}
+            addProduct={addProduct}
+            updateQuantity={updateQuantity}
+          />
         </Card.Body>
       </Card>
     </div>
