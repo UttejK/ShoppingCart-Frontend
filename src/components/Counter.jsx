@@ -8,6 +8,7 @@ export default function Counter({
   addProduct,
   updateQuantity,
   setSelectedProducts,
+  page,
 }) {
   const productIndex = selectedProducts.findIndex(
     (product) => product.id === id
@@ -40,13 +41,17 @@ export default function Counter({
         <Button onClick={handleAddToCart}>Add to cart</Button>
       ) : (
         <div className="d-flex align-items-center justify-content-center">
-          <Button variant="danger" onClick={handleDecreaseQuantity}>
-            <CartX />
-          </Button>
+          {page === "checkout" ? null : (
+            <Button variant="danger" onClick={handleDecreaseQuantity}>
+              <CartX />
+            </Button>
+          )}
           <span className="mx-3">{product.quantity}</span>
-          <Button variant="success" onClick={handleIncreaseQuantity}>
-            <CartPlus />
-          </Button>
+          {page === "checkout" ? null : (
+            <Button variant="success" onClick={handleIncreaseQuantity}>
+              <CartPlus />
+            </Button>
+          )}
         </div>
       )}
     </div>

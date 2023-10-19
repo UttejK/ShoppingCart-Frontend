@@ -9,6 +9,7 @@ const CartItem = ({
   addProduct,
   updateQuantity,
   setSelectedProducts,
+  page,
 }) => {
   return (
     <div className="d-flex align-items-center justify-content-center gap-5 px-5 py-4">
@@ -25,6 +26,7 @@ const CartItem = ({
         addProduct={addProduct}
         updateQuantity={updateQuantity}
         setSelectedProducts={setSelectedProducts}
+        page={page}
       />
       {/* <span>{initialQuantity}</span> */}
       <span>{price.toFixed(2)}</span>
