@@ -6,11 +6,28 @@ import NavbarComponent from "./components/Navbar";
 
 const App = () => {
   const [page, setPage] = useState("product");
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const addProduct = (id, quantity) => {
+    setSelectedProducts((prevSelectedProducts) => [
+      ...prevSelectedProducts,
+      { id: id, quantity: quantity },
+    ]);
+  };
+
+  const updateQuantity = (id, newQuantity) => {
+    setSelectedProducts((prevSelectedProducts) =>
+      prevSelectedProducts.map((product) =>
+        product.id === id ? { ...product, quantity: newQuantity } : product
+      )
+    );
+  };
 
   let activePage;
   switch (page) {
     case "product":
-      activePage = <Products />;
+      activePage = (
+        <Products addProduct={addProduct} updateQuantity={updateQuantity} />
+      );
       break;
     case "cart":
       activePage = <Shoppingcart page={page} setPage={setPage} />;

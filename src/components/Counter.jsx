@@ -15,7 +15,11 @@ const reducer = (state, action) => {
 };
 
 // Component using useReducer
-export default function Counter({ initialQuantity, count }) {
+export default function Counter({
+  initialQuantity,
+  count,
+  setSelectedProducts,
+}) {
   const [state, dispatch] = useReducer(reducer, {
     // count: initialQuantity ? initialQuantity : 0,
     count: initialQuantity | count,
