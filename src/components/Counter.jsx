@@ -1,59 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { CartPlus, CartX } from "react-bootstrap-icons";
-
-export default function Counter({
-  id,
-  selectedProducts,
-  addProduct,
-  updateQuantity,
-  setSelectedProducts,
-  page,
-}) {
-  const productIndex = selectedProducts.findIndex(
-    (product) => product.id === id
-  );
-  const product = selectedProducts[productIndex];
-
-  const handleAddToCart = () => {
-    addProduct(id, 1);
-  };
+import { handleCartOperation } from "./utils"; // Importing addToCart and removeFromCart
+export default function Counter({ id, price, initialQuantity }) {
+  const [quantity, setQuantity] = useState(initialQuantity | 0);
 
   const handleDecreaseQuantity = () => {
-    if (product.quantity === 1) {
-      // If quantity is 1, remove the product from selectedProducts
-      setSelectedProducts(() =>
-        selectedProducts.filter((item) => item.id !== id)
-      );
-    } else {
-      // If quantity > 1, decrease the quantity
-      updateQuantity(id, product.quantity - 1);
+    if (quantity > 0) {
+      setQuantity(() => quantity - 1);
+      handleCartOperation(id, quantity - 1, price * quantity); // Call updateCart with productid, newQuantity, and totalAmount
     }
   };
 
   const handleIncreaseQuantity = () => {
-    updateQuantity(id, product.quantity + 1);
+    setQuantity(() => quantity + 1);
+    handleCartOperation(id, quantity + 1, price * quantity); // Call updateCart with productName, newQuantity, and totalAmount
   };
 
   return (
     <div>
-      {productIndex === -1 ? (
-        <Button onClick={handleAddToCart}>Add to cart</Button>
-      ) : (
-        <div className="d-flex align-items-center justify-content-center">
-          {page === "checkout" ? null : (
+      <div className="d-flex align-items-center justify-content-center">
+        {quantity > 0 ? (
+          <>
             <Button variant="danger" onClick={handleDecreaseQuantity}>
               <CartX />
             </Button>
-          )}
-          <span className="mx-3">{product.quantity}</span>
-          {page === "checkout" ? null : (
-            <Button variant="success" onClick={handleIncreaseQuantity}>
-              <CartPlus />
-            </Button>
-          )}
-        </div>
-      )}
+            <span className="mx-3">{quantity}</span>
+          </>
+        ) : null}
+        <Button variant="success" onClick={handleIncreaseQuantity}>
+          <CartPlus />
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,15 +1,15 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
-import logo from "/image.png";
+import logo from "/blob.svg"; // Correct the path to your logo file
 
 const NavbarComponent = ({ setPage }) => {
   return (
     <Navbar
-      data-bs-theme="dark"
+      bg="dark"
+      variant="dark"
       expand="lg"
       sticky="top"
       style={{ height: "10vh", overflow: "hidden" }}
-      className="bg-dark bg-gradient shadow-lg vw-100"
-      collapseOnSelect
+      className="shadow-lg"
     >
       <Container>
         <Navbar.Brand href="#home">
@@ -21,9 +21,7 @@ const NavbarComponent = ({ setPage }) => {
           ATLANTIS
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse aria-controls="responsive-navbar-nav" />
-
-        <Navbar.Collapse id="responsive-navbar-nav">
+        <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <Nav.Link onClick={() => setPage("product")}>Home</Nav.Link>
             <Nav.Link onClick={() => setPage("cart")}>Cart</Nav.Link>

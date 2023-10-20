@@ -1,37 +1,134 @@
-import logo1 from "/Images/logoimage (1).png";
-import logo2 from "/Images/logoimage (2).png";
-import logo3 from "/Images/logoimage (3).png";
-import logo4 from "/Images/logoimage (4).png";
-import logo5 from "/Images/logoimage (5).png";
-import logo6 from "/Images/logoimage (6).png";
-import logo7 from "/Images/logoimage (7).png";
-import logo8 from "/Images/logoimage (8).png";
-import logo9 from "/Images/logoimage (9).png";
-import logo10 from "/Images/logoimage (10).png";
-import logo11 from "/Images/logoimage (11).png";
-import logo12 from "/Images/logoimage (12).png";
-import logo13 from "/Images/logoimage (13).png";
-import logo14 from "/Images/logoimage (14).png";
-import logo15 from "/Images/logoimage (15).png";
-import logo16 from "/Images/logoimage (16).png";
+const handleCartOperation = async (id, quantity, totalAmount) => {
+  try {
+    // Check if the product is already in the cart
+    const existingCartItemResponse = await fetch(
+      `http://127.0.0.1:8000/api/cart/${id}/`
+    );
+    const existingCartItemData = await existingCartItemResponse.json();
+    console.log(existingCartItemData);
 
-const logoURLs = [
-  logo1,
-  logo2,
-  logo3,
-  logo4,
-  logo5,
-  logo6,
-  logo7,
-  logo8,
-  logo9,
-  logo10,
-  logo11,
-  logo12,
-  logo13,
-  logo14,
-  logo15,
-  logo16,
-];
+    if (existingCartItemData.length > 0) {
+      // Product is already in the cart, update the quantity
+      const cartItemId = existingCartItemData[0].product;
+      console.log(cartItemId);
 
-export default logoURLs;
+      const updatedCartItemResponse = await fetch(
+        `http://127.0.0.1:8000/api/cart/${cartItemId}/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            product: id,
+            quantity: quantity + existingCartItemData[0].quantity,
+            total_amount: totalAmount,
+          }),
+        }
+      );
+
+      if (updatedCartItemResponse.ok) {
+        console.log("Item quantity updated in the cart successfully.");
+        // Optionally, you can handle the response here if needed
+      } else {
+        console.error("Failed to update item quantity in the cart.");
+      }
+    } else {
+      // Product is not in the cart, add it
+      const addToCartResponse = await fetch("http://127.0.0.1:8000/api/cart/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product: id,
+          quantity: quantity,
+          total_amount: totalAmount,
+        }),
+      });
+
+      if (addToCartResponse.ok) {
+        console.log("Item added to the cart successfully.");
+        // Optionally, you can handle the response here if needed
+      } else {
+        console.error("Failed to add item to the cart.");
+      }
+    }
+  } catch (error) {
+    console.error("Error updating cart:", error);
+  }
+};
+
+const removeFromCart = async (id) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/cart/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        // Add any additional headers if needed
+      },
+    });
+
+    if (response.ok) {
+      console.log("Item removed from the cart successfully.");
+      // Optionally, you can handle the response here if needed
+    } else {
+      console.error("Failed to remove item from the cart.");
+    }
+  } catch (error) {
+    console.error("Error removing item from the cart:", error);
+  }
+};
+
+const removeAllItemsFromCart = async () => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/cart/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        // Add any additional headers if needed
+      },
+    });
+
+    if (response.ok) {
+      console.log("All items removed from the cart successfully.");
+      // Optionally, you can handle the response here if needed
+    } else {
+      console.error("Failed to remove all items from the cart.");
+    }
+  } catch (error) {
+    console.error("Error removing all items from the cart:", error);
+  }
+};
+
+const addToPurchase = async (id, quantity, totalAmount) => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/purchase/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Add any additional headers if needed
+      },
+      body: JSON.stringify({
+        product: id,
+        quantity: quantity,
+        amount_paid: totalAmount,
+      }),
+    });
+    if (response.ok) {
+      console.log("Item added to the purchase successfully.");
+      // Optionally, you can handle the response here if needed
+    } else {
+      console.error("Failed to add item to the purchase.");
+    }
+  } catch (error) {
+    console.error("Error adding item to the purchase:", error);
+  }
+};
+
+export {
+  handleCartOperation,
+  removeFromCart,
+  removeAllItemsFromCart,
+  addToPurchase,
+};

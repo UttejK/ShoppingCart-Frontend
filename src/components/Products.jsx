@@ -1,16 +1,8 @@
 import Product from "./Product";
 import { Col, Container, Row } from "react-bootstrap";
-import logoURLs from "./utils/index";
 import { useEffect, useState } from "react";
 
-const Products = ({ addProduct, updateQuantity, selectedProducts }) => {
-  const items = Array.from({ length: 16 }, (_, index) => {
-    return {
-      id: index + 1,
-      logoURL: logoURLs[index],
-    };
-  });
-
+const Products = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -38,11 +30,11 @@ const Products = ({ addProduct, updateQuantity, selectedProducts }) => {
     <div>
       <Container>
         <div
-          className="titles d-flex flex-column align-items-center bold"
-          style={{ color: "#fff" }}
+          className="titles d-flex flex-column align-items-center fw-bold"
+          style={{ color: "#000" }}
         >
           <h2>We have a wide variety of products to choose from.</h2>
-          <h3>Feel free to take your time and browse all of them...</h3>
+          <h3>Feel free to take your time and browse all of them</h3>
         </div>
         <Row>
           {products.map((product) => {
@@ -54,11 +46,8 @@ const Products = ({ addProduct, updateQuantity, selectedProducts }) => {
                 <Product
                   id={product.id}
                   cardImageURL={product.image_url}
-                  cardTitle={`${product.name} ₹ ${product.price}`}
+                  cardTitle={[product.price, product.name]}
                   cardText={product.description}
-                  addProduct={addProduct}
-                  updateQuantity={updateQuantity}
-                  selectedProducts={selectedProducts}
                 />
               </Col>
             );

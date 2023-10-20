@@ -1,36 +1,24 @@
+import { Card } from "react-bootstrap";
 import Counter from "./Counter";
 
-const CartItem = ({
-  imgSrc,
-  selectedProducts,
-  itemName,
-  id,
-  price,
-  addProduct,
-  updateQuantity,
-  setSelectedProducts,
-  page,
-}) => {
+const CartItem = ({ imgSrc, itemName, id, price, page, quantity }) => {
   return (
-    <div className="d-flex align-items-center justify-content-center gap-5 px-5 py-4">
-      <span>{id}</span>
-      <img
-        src={imgSrc}
-        alt={itemName}
-        style={{ objectFit: "contain", width: "4rem" }}
-      />
-      <span>{itemName}</span>
-      <Counter
-        id={id}
-        selectedProducts={selectedProducts}
-        addProduct={addProduct}
-        updateQuantity={updateQuantity}
-        setSelectedProducts={setSelectedProducts}
-        page={page}
-      />
-      {/* <span>{initialQuantity}</span> */}
-      <span>{price.toFixed(2)}</span>
-    </div>
+    <>
+      <Card className="d-flex flex-row align-items-center mb-1 shadow rounded">
+        <Card.Img
+          src={imgSrc}
+          alt={itemName}
+          style={{ width: "3.75rem", height: "3.75rem", margin: "0.5rem" }}
+          className="col-md-4"
+        />
+        <Card.Body className="col-md-8 d-flex align-items-center flex-row">
+          <Card.Text className="px-3 mt-3">
+            {itemName} - Price: ₹ {price * quantity}
+          </Card.Text>
+          <Counter id={id} page={page} initialQuantity={quantity} />
+        </Card.Body>
+      </Card>
+    </>
   );
 };
 
