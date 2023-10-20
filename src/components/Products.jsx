@@ -1,6 +1,7 @@
 import Product from "./Product";
 import { Col, Container, Row } from "react-bootstrap";
 import logoURLs from "./utils/index";
+import { useEffect, useState } from "react";
 
 const Products = ({ addProduct, updateQuantity, selectedProducts }) => {
   const items = Array.from({ length: 16 }, (_, index) => {
@@ -10,25 +11,51 @@ const Products = ({ addProduct, updateQuantity, selectedProducts }) => {
     };
   });
 
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    // Function to fetch products from the API endpoint
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/product/");
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        } else {
+          console.error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    // Call the fetchProducts function
+    fetchProducts();
+  }, []); // Empty dependency array ensures that this effect runs once after the initial render
+  // console.log(products);
+
   return (
     <div>
       <Container>
-        <div className="titles d-flex flex-column align-items-center">
-          <h1>We have a wide variety of products to choose from.</h1>
-          <h2>Feel free to take your time and browse all of them...</h2>
+        <div
+          className="titles d-flex flex-column align-items-center bold"
+          style={{ color: "#fff" }}
+        >
+          <h2>We have a wide variety of products to choose from.</h2>
+          <h3>Feel free to take your time and browse all of them...</h3>
         </div>
         <Row>
-          {items.map((item) => {
+          {products.map((product) => {
             return (
               <Col
-                key={item.id}
+                key={product.id}
                 className="my-auto p-3 d-flex justify-content-center"
               >
                 <Product
-                  id={item.id}
-                  cardImageURL={item.logoURL}
-                  cardTitle={`Logo ${item.id}`}
-                  cardText={"This is an AI Generated Image"}
+                  id={product.id}
+                  cardImageURL={product.image_url}
+                  cardTitle={`${product.name} ₹ ${product.price}`}
+                  cardText={product.description}
                   addProduct={addProduct}
                   updateQuantity={updateQuantity}
                   selectedProducts={selectedProducts}

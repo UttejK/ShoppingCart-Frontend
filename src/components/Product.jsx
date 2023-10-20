@@ -16,7 +16,11 @@ const Product = ({
         <Card.Img variant="top" src={cardImageURL} />
         <Card.Body className="d-flex flex-column align-items-center">
           <Card.Title>{cardTitle}</Card.Title>
-          <Card.Text>{cardText}</Card.Text>
+          <Card.Text className="text-break">
+            <br />
+            {cardText}
+          </Card.Text>
+
           <Counter
             id={id}
             selectedProducts={selectedProducts}
