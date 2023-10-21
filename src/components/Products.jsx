@@ -5,79 +5,50 @@ import Product from "./Product";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
-  const [isLoadingCarts, setIsLoadingCarts] = useState(true);
   const [initialCounts, setInitialCounts] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = () => {
-      fetch("http://127.0.0.1:8000/api/product/")
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error("Failed to fetch products");
-        })
-        .then((data) => {
-          setProducts(data);
-          setIsLoadingProducts(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching products:", error);
-        });
-    };
+    const fetchData = async () => {
+      try {
+        const productsResponse = await fetch(
+          "http://127.0.0.1:8000/api/product/"
+        );
+        const cartResponse = await fetch("http://127.0.0.1:8000/api/cart/");
 
-    fetchProducts();
-  }, []);
+        if (productsResponse.ok && cartResponse.ok) {
+          const productsData = await productsResponse.json();
+          const cartData = await cartResponse.json();
 
-  useEffect(() => {
-    const fetchCartItems = () => {
-      fetch("http://127.0.0.1:8000/api/cart/")
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error("Failed to fetch cart items");
-        })
-        .then((data) => {
-          setCartItems(data);
-          setIsLoadingCarts(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching cart items:", error);
-        });
-    };
-    fetchCartItems();
-  }, []);
+          setProducts(productsData);
+          setCartItems(cartData);
 
-  useEffect(() => {
-    const initializeInitialCounts = () => {
-      const counts = {};
-      products.forEach((product) => {
-        for (const key in cartItems) {
-          if (cartItems[key].product === product.id) {
-            counts[product.id] = cartItems[key].quantity;
-            // console.log(counts[product.id], product.id);
-            return;
-          }
+          const counts = {};
+          productsData.forEach((product) => {
+            const cartItem = cartData.find(
+              (item) => item.product === product.id
+            );
+            counts[product.id] = cartItem ? cartItem.quantity : 0;
+          });
+          setInitialCounts(counts);
+          setIsLoading(false);
+        } else {
+          console.error("Failed to fetch data");
         }
-        // If there is no matching cart item, set the initial count to 0
-        counts[product.id] = 0;
-      });
-      setInitialCounts(counts);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
-    if (!(isLoadingProducts && isLoadingCarts)) {
-      initializeInitialCounts(); // Initialize counts only when cart items have been loaded
-    }
-  }, [isLoadingProducts, isLoadingCarts]);
+    fetchData();
+  }, []); // Empty dependency array ensures that this effect runs once after the initial render
 
   return (
     <div>
       <Container>
         <h1>Products Page</h1>
-        {isLoadingCarts && isLoadingProducts && <p>Loading cart items...</p>}
-        {!isLoadingCarts && !isLoadingProducts && (
+        {isLoading && <p>Loading cart items...</p>}
+        {!isLoading && (
           <Row>
             {products.map((product) => {
               return (

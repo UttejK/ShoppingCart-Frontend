@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { CartPlus, CartX } from "react-bootstrap-icons";
-import { insertCartItem, updateCartItem, deleteCartItem } from "./utils"; // Importing addToCart and removeFromCart
+import { updateCartItem, deleteCartItem } from "./utils";
 
 export default function Counter({ id, price, initialQuantity, page }) {
   const [quantity, setQuantity] = useState(initialQuantity);
-  // let quantity = initialQuantity;
+
+  useEffect(() => {
+    // Update the cart item whenever quantity changes
+    if (page === "cart") {
+      updateCartItem(id, quantity, price * quantity);
+    }
+  }, [quantity, id, price, page]);
 
   const handleDecreaseQuantity = () => {
     if (page === "cart") {
       if (quantity > 1) {
-        setQuantity(() => quantity - 1);
-        // quantity = quantity - 1;
-        updateCartItem(id, quantity, price * quantity);
+        setQuantity((prevQuantity) => prevQuantity - 1);
       } else {
+        setQuantity(0); // Ensure quantity doesn't go below 0
         deleteCartItem(id);
       }
     }
@@ -21,9 +26,7 @@ export default function Counter({ id, price, initialQuantity, page }) {
 
   const handleIncreaseQuantity = () => {
     if (page === "cart") {
-      setQuantity(() => quantity + 1);
-      // quantity = quantity + 1;
-      updateCartItem(id, quantity, price * quantity);
+      setQuantity((prevQuantity) => prevQuantity + 1);
     }
   };
 
