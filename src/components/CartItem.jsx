@@ -15,7 +15,12 @@ const CartItem = ({ imgSrc, itemName, id, price, page, quantity }) => {
           <Card.Text className="px-3 mt-3">
             {itemName} - Price: ₹ {price * quantity}
           </Card.Text>
-          <Counter id={id} page={page} initialQuantity={quantity} />
+          <Counter
+            id={itemName}
+            initialQuantity={quantity}
+            page={"cart"}
+            price={price}
+          />
         </Card.Body>
       </Card>
     </>

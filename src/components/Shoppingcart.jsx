@@ -47,7 +47,7 @@ const Shoppingcart = ({ id, page, setPage }) => {
             className="d-flex flex-between justify-content-between"
           >
             <CartItem
-              id={product.id}
+              id={id}
               itemName={product.product}
               price={product.total_amount}
               products={products}

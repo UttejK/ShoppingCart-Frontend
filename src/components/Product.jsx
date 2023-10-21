@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap";
 import Counter from "./Counter";
 
-const Product = ({ id, cardImageURL, cardTitle, cardText }) => {
+const Product = ({ id, cardImageURL, cardTitle, cardText, initialCount }) => {
   const price = cardTitle[0];
   const name = cardTitle[1];
   return (
@@ -27,7 +27,13 @@ const Product = ({ id, cardImageURL, cardTitle, cardText }) => {
             {cardText}
           </Card.Text>
 
-          <Counter imgUrl={cardImageURL} id={id} price={price} />
+          <Counter
+            imgUrl={cardImageURL}
+            id={id}
+            price={price}
+            initialQuantity={initialCount}
+            page={"product"}
+          />
         </Card.Body>
       </Card>
     </div>

@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { CartPlus, CartX } from "react-bootstrap-icons";
-import { handleCartOperation } from "./utils"; // Importing addToCart and removeFromCart
-export default function Counter({ id, price, initialQuantity }) {
-  const [quantity, setQuantity] = useState(initialQuantity | 0);
+import { insertCartItem, updateCartItem, deleteCartItem } from "./utils"; // Importing addToCart and removeFromCart
+
+export default function Counter({ id, price, initialQuantity, page }) {
+  const [quantity, setQuantity] = useState(initialQuantity);
+  // let quantity = initialQuantity;
 
   const handleDecreaseQuantity = () => {
-    if (quantity > 0) {
-      setQuantity(() => quantity - 1);
-      handleCartOperation(id, quantity - 1, price * quantity); // Call updateCart with productid, newQuantity, and totalAmount
+    if (page === "cart") {
+      if (quantity > 1) {
+        setQuantity(() => quantity - 1);
+        // quantity = quantity - 1;
+        updateCartItem(id, quantity, price * quantity);
+      } else {
+        deleteCartItem(id);
+      }
     }
   };
 
   const handleIncreaseQuantity = () => {
-    setQuantity(() => quantity + 1);
-    handleCartOperation(id, quantity + 1, price * quantity); // Call updateCart with productName, newQuantity, and totalAmount
+    if (page === "cart") {
+      setQuantity(() => quantity + 1);
+      // quantity = quantity + 1;
+      updateCartItem(id, quantity, price * quantity);
+    }
   };
 
   return (
