@@ -89,7 +89,7 @@ const removeAllItemsFromCart = async () => {
   }
 };
 
-const addToPurchase = async (id, quantity, totalAmount) => {
+const addToPurchase = async (id, quantity, totalAmount, userId) => {
   try {
     const response = await fetch("http://127.0.0.1:8000/api/purchase/", {
       method: "POST",
@@ -98,9 +98,10 @@ const addToPurchase = async (id, quantity, totalAmount) => {
         // Add any additional headers if needed
       },
       body: JSON.stringify({
+        amount_paid: totalAmount,
         product: id,
         quantity: quantity,
-        amount_paid: totalAmount,
+        user_id: userId,
       }),
     });
     if (response.ok) {
@@ -114,10 +115,48 @@ const addToPurchase = async (id, quantity, totalAmount) => {
   }
 };
 
+const updateProduct = async (
+  id,
+  name,
+  total_available,
+  price,
+  image_url,
+  description,
+  category
+) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/product/${id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        // Add any additional headers if needed
+      },
+      body: JSON.stringify({
+        id: id,
+        name: name,
+        total_available: total_available,
+        price: price,
+        image_url: image_url,
+        description: description,
+        category: category,
+      }),
+    });
+    if (response.ok) {
+      console.log("Item updated in product table successfully.");
+      // Optionally, you can handle the response here if needed
+    } else {
+      console.error("Failed to update product table.");
+    }
+  } catch (error) {
+    console.error("Error updating product table:", error);
+  }
+};
+
 export {
   insertCartItem,
   updateCartItem,
   deleteCartItem,
   removeAllItemsFromCart,
   addToPurchase,
+  updateProduct,
 };
