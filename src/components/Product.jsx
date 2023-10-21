@@ -11,7 +11,10 @@ const Product = ({ id, cardImageURL, cardTitle, cardText, initialCount }) => {
         className="d-flex align-items-center shadow"
       >
         <Card.Img variant="top" src={cardImageURL} />
-        <Card.Body className="d-flex flex-column align-items-center w-75">
+        <Card.Body
+          className="d-flex flex-column align-items-center"
+          style={{ width: "90%" }}
+        >
           <Card.Title
             style={{
               width: "100%",
@@ -19,8 +22,8 @@ const Product = ({ id, cardImageURL, cardTitle, cardText, initialCount }) => {
               justifyContent: "space-between",
             }}
           >
-            <span>₹ {cardTitle[1]}</span>
-            <span>{cardTitle[0]}</span>
+            <span>₹ {cardTitle[0]}</span>
+            <span>{cardTitle[1]}</span>
           </Card.Title>
           <Card.Text className="text-break">
             <br />
