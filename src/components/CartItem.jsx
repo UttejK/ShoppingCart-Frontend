@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap";
 import Counter from "./Counter";
 
-const CartItem = ({ imgSrc, itemName, id, price, page, quantity }) => {
+const CartItem = ({ imgSrc, itemName, price, quantity, page }) => {
   return (
     <>
       <Card className="d-flex flex-row align-items-center mb-1 shadow rounded">
@@ -18,7 +18,7 @@ const CartItem = ({ imgSrc, itemName, id, price, page, quantity }) => {
           <Counter
             id={itemName}
             initialQuantity={quantity}
-            page={"cart"}
+            page={page}
             price={price}
           />
         </Card.Body>

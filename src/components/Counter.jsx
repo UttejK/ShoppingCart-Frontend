@@ -14,9 +14,8 @@ export default function Counter({ id, price, initialQuantity, page }) {
       } else {
         updateCartItem(id, quantity, price * quantity);
       }
-    } else {
     }
-  }, [quantity, id, price, page]);
+  }, [quantity, id, price]);
 
   const handleDecreaseQuantity = () => {
     if (page === "cart" && quantity > 0) {
@@ -61,9 +60,14 @@ export default function Counter({ id, price, initialQuantity, page }) {
           {quantity > 0 ? (
             <span className="mx-3">
               {" "}
-              <strong>
-                &apos;{quantity}&apos; in cart, Go to Cart to remove it
-              </strong>
+              {page === "product" ? (
+                <strong>
+                  {" "}
+                  &apos;{quantity}&apos; in cart, Go to Cart to remove it{" "}
+                </strong>
+              ) : (
+                <strong>Purchase Confirmed</strong>
+              )}
             </span>
           ) : null}
           {quantity === 0 ? (
