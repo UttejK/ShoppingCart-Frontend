@@ -12,10 +12,10 @@ export default function Counter({ id, price, initialQuantity, page }) {
       if (quantity === 0) {
         deleteCartItem(id);
       } else {
-        updateCartItem(id, quantity, price * quantity);
+        updateCartItem(id, quantity, price);
       }
     }
-  }, [quantity, id, price]);
+  }, [quantity]);
 
   const handleDecreaseQuantity = () => {
     if (page === "cart" && quantity > 0) {

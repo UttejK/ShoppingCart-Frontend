@@ -6,73 +6,28 @@ import NavbarComponent from "./components/Navbar";
 
 const App = () => {
   const [page, setPage] = useState("product");
-  // const [selectedProducts, setSelectedProducts] = useState([]);
-  // const addProduct = (id, quantity, name, price, totalAmount) => {
-  //   setSelectedProducts((prevSelectedProducts) => [
-  //     ...prevSelectedProducts,
-  //     {
-  //       id: id,
-  //       quantity: quantity,
-  //       name: name,
-  //       price: price,
-  //       totalAmount: totalAmount,
-  //     },
-  //   ]);
-  // };
-
-  // const updateQuantity = (id, newQuantity) => {
-  //   setSelectedProducts((prevSelectedProducts) =>
-  //     prevSelectedProducts.map((product) =>
-  //       product.id === id ? { ...product, quantity: newQuantity } : product
-  //     )
-  //   );
-  // };
+  const [user, setUser] = useState(1);
 
   let activePage;
   switch (page) {
     case "product":
-      activePage = (
-        <Products
-        // addProduct={addProduct}
-        // updateQuantity={updateQuantity}
-        // selectedProducts={selectedProducts}
-        // setSelectedProducts={setSelectedProducts}
-        />
-      );
+      activePage = <Products />;
       break;
     case "cart":
       activePage = (
         <Shoppingcart
-          // addProduct={addProduct}
-          // updateQuantity={updateQuantity}
-          // selectedProducts={selectedProducts}
           page={page}
           setPage={setPage}
-          // setSelectedProducts={setSelectedProducts}
+          user={user}
+          setUser={setUser}
         />
       );
       break;
     case "checkout":
-      activePage = (
-        <Checkout
-          // addProduct={addProduct}
-          // updateQuantity={updateQuantity}
-          // selectedProducts={selectedProducts}
-          page={page}
-          setPage={setPage}
-          // setSelectedProducts={setSelectedProducts}
-        />
-      );
+      activePage = <Checkout page={page} setPage={setPage} user={user} />;
       break;
     default:
-      activePage = (
-        <Products
-        // addProduct={addProduct}
-        // updateQuantity={updateQuantity}
-        // selectedProducts={selectedProducts}
-        // setSelectedProducts={setSelectedProducts}
-        />
-      );
+      activePage = <Products />;
   }
 
   return (

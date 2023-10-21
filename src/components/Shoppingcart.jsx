@@ -4,9 +4,8 @@ import { BoxArrowLeft, BoxArrowRight } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
 import { addToPurchase, deleteCartItem, updateProduct } from "./utils";
 
-const Shoppingcart = ({ id, page, setPage }) => {
+const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [user, setUser] = useState(1);
 
   const getProductatId = async (id) => {
     return new Promise((resolve, reject) => {
@@ -28,28 +27,25 @@ const Shoppingcart = ({ id, page, setPage }) => {
 
   const handleUserInputChange = (event) => {
     if (isNaN(parseInt(event.target.value))) alert("Please Enter Only Numbers");
-    setUser(parseInt(event.target.value));
+    setUser(() => parseInt(event.target.value));
   };
-  useEffect(() => {
-    // Function to fetch products from the API endpoint
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/cart/");
-        if (response.ok) {
-          const data = await response.json();
-          setCartItems(data);
-        } else {
-          console.error("Failed to fetch data");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
-    // Call the fetchProducts function
-    fetchProducts();
-  }, []);
-  // products.map((p) => console.log(p));
+  const fetchCartItems = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/cart/");
+      if (response.ok) {
+        const data = await response.json();
+        setCartItems(data);
+      } else {
+        console.error("Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  fetchCartItems();
+
   return (
     <>
       <Container
@@ -92,11 +88,11 @@ const Shoppingcart = ({ id, page, setPage }) => {
           onChange={handleUserInputChange}
         />
         <Button
-          variant="light"
+          variant="success"
           onClick={async () => {
+            fetchCartItems();
             for (const key in cartItems) {
               try {
-                console.log(cartItems[key].quantity);
                 getProductatId(cartItems[key].product).then((productData) =>
                   updateProduct(
                     productData.id,
