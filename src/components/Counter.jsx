@@ -39,22 +39,40 @@ export default function Counter({ id, price, initialQuantity, page }) {
 
   return (
     <div>
-      <div className="d-flex align-items-center justify-content-center">
-        {quantity > 0 ? (
-          <>
-            <Button variant="danger" onClick={handleDecreaseQuantity}>
-              <CartX />
+      {page === "cart" ? (
+        <div className="d-flex align-items-center justify-content-center">
+          {quantity > 0 ? (
+            <>
+              <Button variant="danger" onClick={handleDecreaseQuantity}>
+                <CartX />
+              </Button>
+              <span className="mx-3">{quantity}</span>
+            </>
+          ) : null}
+          <Button
+            variant="success"
+            onClick={quantity === 0 ? handleAddToCart : handleIncreaseQuantity}
+          >
+            {quantity === 0 ? <CartPlus /> : <CartX />}
+          </Button>
+        </div>
+      ) : (
+        <div className="d-flex align-items-center justify-content-center">
+          {quantity > 0 ? (
+            <span className="mx-3">
+              {" "}
+              <strong>
+                &apos;{quantity}&apos; in cart, Go to Cart to remove it
+              </strong>
+            </span>
+          ) : null}
+          {quantity === 0 ? (
+            <Button variant="success" onClick={handleAddToCart}>
+              <CartPlus />
             </Button>
-            <span className="mx-3">{quantity}</span>
-          </>
-        ) : null}
-        <Button
-          variant="success"
-          onClick={quantity === 0 ? handleAddToCart : handleIncreaseQuantity}
-        >
-          {quantity === 0 ? <CartPlus /> : <CartX />}
-        </Button>
-      </div>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 }
