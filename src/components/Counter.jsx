@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { CartPlus, CartX } from "react-bootstrap-icons";
 import { updateCartItem, deleteCartItem, insertCartItem } from "./utils";
@@ -63,7 +63,7 @@ export default function Counter({ id, price, initialQuantity, page }) {
               {page === "product" ? (
                 <strong>
                   {" "}
-                  &apos;{quantity}&apos; in cart, Go to Cart to remove it{" "}
+                  &apos;{quantity}&apos; in cart, Go to Cart to modify it{" "}
                 </strong>
               ) : (
                 <strong>Purchase Confirmed</strong>

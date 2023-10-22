@@ -1,8 +1,8 @@
 import { Button, Container } from "react-bootstrap";
-import CartItem from "./CartItem";
 import { BoxArrowLeft, BoxArrowRight } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
 import { addToPurchase, deleteCartItem, updateProduct } from "./utils";
+import CartItem from "./CartItem";
 
 const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -43,16 +43,22 @@ const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
       console.error("Error fetching data:", error);
     }
   };
-
-  fetchCartItems();
+  useEffect(() => {
+    fetchCartItems();
+  });
 
   return (
     <>
       <Container
-        style={{ background: "rgb(237, 255, 234)" }}
-        className="vh-100 d-flex flex-column w-50 align-items-center shadow-lg"
+        style={{
+          background: "rgb(237, 255, 234)",
+          overflow: "scroll",
+          height: "85vh",
+        }}
+        className="d-flex flex-column w-50 align-items-center shadow-lg"
       >
         <h1 className="text-center py-5">Shopping Cart</h1>
+
         <Button
           variant="light"
           onClick={() => setPage("product")}
@@ -61,7 +67,15 @@ const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
           <BoxArrowLeft />
           <span className="ps-3">Back to Products page</span>
         </Button>
-
+        <input
+          type="number"
+          name="userId"
+          id="1"
+          placeholder="Please enter User ID to proceed (just a number)"
+          className="w-50 mb-2"
+          required={true}
+          onChange={handleUserInputChange}
+        />
         {cartItems.map((product) => (
           <div
             key={product.id}
@@ -78,15 +92,7 @@ const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
             />
           </div>
         ))}
-        <input
-          type="number"
-          name="userId"
-          id="1"
-          placeholder="Please enter User ID to proceed (just a number)"
-          className="w-50"
-          required={true}
-          onChange={handleUserInputChange}
-        />
+
         <Button
           variant="success"
           onClick={async () => {
@@ -123,7 +129,7 @@ const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
             }
             setPage("checkout");
           }}
-          className="w-75 shadow mt-5"
+          className="w-75 shadow mt-1 mb-5"
         >
           <BoxArrowRight />
           <span className="ps-3">Continue to checkout</span>

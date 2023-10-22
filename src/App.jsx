@@ -31,13 +31,17 @@ const App = () => {
   }
 
   return (
-    <div className="bg-secondary bg-gradient">
+    <div
+      className="bg-secondary bg-gradient"
+      style={{ background: "rgb(227, 252, 255)", overflow: "hidden" }}
+    >
       <NavbarComponent page={page} setPage={setPage} />
       <section
         style={{
           paddingTop: "5vh",
           background: "rgb(227, 252, 255)",
           height: "100%",
+          overflow: "hidden",
         }}
       >
         {activePage}

@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { Check } from "react-bootstrap-icons";
 import CartItem from "./CartItem";
 
 const Checkout = ({ setPage, page, user }) => {
   const [checkoutItems, setCheckoutItems] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [total, setTotal] = useState(0);
 
-  // Function to fetch checkout items from the API endpoint
   const fetchcheckoutItems = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/purchase/");
       if (response.ok) {
         const data = await response.json();
         setCheckoutItems(data);
+        setLoaded(true);
+        const calculatedTotal = data
+          .filter((i) => i.user_id === user)
+          .reduce((acc, item) => {
+            console.log("Current Item Amount Paid:", acc, item.amount_paid);
+            return acc + parseFloat(item.amount_paid * item.quantity);
+          }, 0);
+        setTotal(calculatedTotal);
       } else {
         console.error("Failed to fetch checkout items");
       }
@@ -22,10 +30,15 @@ const Checkout = ({ setPage, page, user }) => {
     }
   };
 
-  fetchcheckoutItems();
+  useEffect(() => {
+    fetchcheckoutItems();
+  }, [user, loaded]);
 
   return (
-    <Container className="vh-100 d-flex flex-column w-50 align-items-center">
+    <Container
+      style={{ height: "85vh", overflow: "scroll" }}
+      className="d-flex flex-column w-50 align-items-center"
+    >
       <h1 className="text-center py-5">Checkout Confirmation</h1>
       {checkoutItems
         ? checkoutItems
@@ -44,10 +57,12 @@ const Checkout = ({ setPage, page, user }) => {
             ))
         : null}
 
+      <span className="text-center mb-3">Total: ₹{total}</span>
+
       <Button
         variant="success"
         onClick={() => setPage("product")}
-        className="w-50"
+        className="w-50 mb-5"
       >
         <span className="ps-3">Checkout Successful </span>
         <Check />
