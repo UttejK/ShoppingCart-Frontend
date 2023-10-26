@@ -152,6 +152,27 @@ const updateProduct = async (
   }
 };
 
+const fetchcheckoutItems = async () => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/purchase/");
+    if (response.ok) {
+      const data = await response.json();
+      setCheckoutItems(data);
+      const calculatedTotal = data
+        .filter((i) => i.user_id === user)
+        .reduce((acc, item) => {
+          console.log("Current Item Amount Paid:", acc, item.amount_paid);
+          return acc + parseFloat(item.amount_paid * item.quantity);
+        }, 0);
+      setTotal(calculatedTotal);
+    } else {
+      console.error("Failed to fetch checkout items");
+    }
+  } catch (error) {
+    console.error("Error fetching checkout items:", error);
+  }
+};
+
 export {
   insertCartItem,
   updateCartItem,
@@ -159,4 +180,5 @@ export {
   removeAllItemsFromCart,
   addToPurchase,
   updateProduct,
+  fetchcheckoutItems,
 };

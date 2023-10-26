@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { Check } from "react-bootstrap-icons";
 import CartItem from "./CartItem";
+// import { fetchcheckoutItems } from "./utils";
 
 const Checkout = ({ setPage, page, user }) => {
   const [checkoutItems, setCheckoutItems] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [total, setTotal] = useState(0);
+
+  // console.log(user);
 
   const fetchcheckoutItems = async () => {
     try {
@@ -32,7 +35,7 @@ const Checkout = ({ setPage, page, user }) => {
 
   useEffect(() => {
     fetchcheckoutItems();
-  }, [user, loaded]);
+  });
 
   return (
     <Container
@@ -57,7 +60,7 @@ const Checkout = ({ setPage, page, user }) => {
             ))
         : null}
 
-      <span className="text-center mb-3">Total: ₹{total}</span>
+      <span className="text-center mb-3">Total: ₹{total.toFixed(2)}</span>
 
       <Button
         variant="success"

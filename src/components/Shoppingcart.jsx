@@ -1,7 +1,12 @@
 import { Button, Container } from "react-bootstrap";
 import { BoxArrowLeft, BoxArrowRight } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
-import { addToPurchase, deleteCartItem, updateProduct } from "./utils";
+import {
+  addToPurchase,
+  deleteCartItem,
+  updateProduct,
+  fetchcheckoutItems,
+} from "./utils";
 import CartItem from "./CartItem";
 
 const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
@@ -128,6 +133,7 @@ const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
               }
             }
             setPage("checkout");
+            // fetchcheckoutItems();
           }}
           className="w-75 shadow mt-1 mb-5"
         >
