@@ -1,12 +1,7 @@
 import { Button, Container } from "react-bootstrap";
 import { BoxArrowLeft, BoxArrowRight } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
-import {
-  addToPurchase,
-  deleteCartItem,
-  updateProduct,
-  fetchcheckoutItems,
-} from "./utils";
+import { addToPurchase, deleteCartItem, updateProduct } from "./utils";
 import CartItem from "./CartItem";
 
 const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
@@ -116,7 +111,7 @@ const Shoppingcart = ({ id, page, setPage, user, setUser }) => {
                     productData.description,
                     productData.category
                   )
-                    .then(() => console.log("updates must be done"))
+                    // .then(() => console.log("updates must be done"))
                     .catch((r) => console.warn(r))
                     .then(() =>
                       addToPurchase(
